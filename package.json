@@ -1,0 +1,11 @@
+{
+  "name": "StreamingRTC",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/vuthienan178/StreamingRTC.git",
+  "author": "MAYTINH-TO4QHOV\\Administrator <vuthienan178@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
