@@ -8,5 +8,9 @@
   "dependencies": {
     "ejs": "^2.5.7",
     "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "jquery": "^3.2.1",
+    "simple-peer": "^8.1.1"
   }
 }
