@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1543,28 +1543,66 @@ module.exports = Negotiator;
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports) {
+
+function playVideo(stream, idVideo){
+        const video = document.getElementById('localStream');
+        video.srcObject = stream;
+        video.onloadedmetadata = function(){
+            video.play();
+        };
+
+}
+
+module.exports = playVideo;
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Peer = __webpack_require__(7);
-const uid = __webpack_require__(13);
-const $  = __webpack_require__ (14);
+const Peer = __webpack_require__(8);
+const uid = __webpack_require__(14);
+const $  = __webpack_require__ (15);
+const openStream = __webpack_require__(16);
+const playVideo = __webpack_require__(6)
 function getPeer(){
     const id = uid(10);
     $('#peer-id').append(id);
     return uid(10);
 }
 const peer = new Peer(getPeer(),{host:'localhost',port: 3000, secure : true,key :'peerjs'});
-console.log(peer);
+
+$('#btnCall').click(() => {
+    const friendId = $('#txtFiendId');
+    openStream(stream => {
+                playVideo(stream,'localStream');
+                const call = peer.call(friendId,stream);
+                console.log(call);
+                call.on('stream',remoteSream => {
+                    playVideo(remoteSream,'friendStream');
+                })
+    });
+});
+console.log('asdfadsf');
+
+peer.on('call', (call) => {
+    openStream(stream => {
+        playVideo(stream,'localStream');
+        call.answer(stream);
+        console.log('fghfgh');
+        call.on('stream', remoteStream => playVideo(stream,'friendStream'));
+    });
+});
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var util = __webpack_require__(0);
 var EventEmitter = __webpack_require__(2);
-var Socket = __webpack_require__(8);
-var MediaConnection = __webpack_require__(9);
-var DataConnection = __webpack_require__(10);
+var Socket = __webpack_require__(9);
+var MediaConnection = __webpack_require__(10);
+var DataConnection = __webpack_require__(11);
 
 /**
  * A peer who can initiate connections with other peers.
@@ -2060,7 +2098,7 @@ module.exports = Peer;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var util = __webpack_require__(0);
@@ -2280,7 +2318,7 @@ module.exports = Socket;
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var util = __webpack_require__(0);
@@ -2381,13 +2419,13 @@ module.exports = MediaConnection;
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var util = __webpack_require__(0);
 var EventEmitter = __webpack_require__(2);
 var Negotiator = __webpack_require__(5);
-var Reliable = __webpack_require__(11);
+var Reliable = __webpack_require__(12);
 
 /**
  * Wraps a DataChannel between two Peers.
@@ -2654,10 +2692,10 @@ module.exports = DataConnection;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var util = __webpack_require__(12);
+var util = __webpack_require__(13);
 
 /**
  * Reliable transfer for Chrome Canary DataChannel impl.
@@ -2978,7 +3016,7 @@ module.exports.Reliable = Reliable;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var BinaryPack = __webpack_require__(3);
@@ -3079,7 +3117,7 @@ module.exports = util;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 /**
@@ -3102,7 +3140,7 @@ function uid(len) {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -13360,6 +13398,23 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const playVideo = __webpack_require__(6);
+function openCamera(cb)
+{
+    navigator.mediaDevices.getUserMedia({audio:true},{video:true})
+    .then(stream => {
+        cb(stream);
+    }
+    )
+    .catch(err => console.log(err));
+}
+
+module.exports = openCamera;
 
 /***/ })
 /******/ ]);
