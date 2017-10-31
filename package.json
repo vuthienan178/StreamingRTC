@@ -1,21 +1,7 @@
 {
-  "name": "StreamingRTC",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/vuthienan178/StreamingRTC.git",
-  "author": "MAYTINH-TO4QHOV\\Administrator <vuthienan178@gmail.com>",
-  "license": "MIT",
   "dependencies": {
-    "ejs": "^2.5.7",
-    "express": "^4.16.2",
-    "uid": "^0.0.2"
-  },
-  "scripts": {
-    "start": "node index.js"
-  },
-  "devDependencies": {
     "jquery": "^3.2.1",
     "peerjs": "^0.3.14",
-    "simple-peer": "^8.1.1"
+    "uid": "^0.0.2"
   }
 }
