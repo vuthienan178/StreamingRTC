@@ -1570,20 +1570,18 @@ function getPeer(){
     $('#peer-id').append(id);
     return uid(10);
 }
-const peer = new Peer(getPeer(),{host:'localhost',port: 3000, secure : true,key :'peerjs'});
+const peer = new Peer(getPeer(),{host:'https://streamingrtc.herokuapp.com/',port: 443, secure : true,key :'peerjs'});
 
 $('#btnCall').click(() => {
     const friendId = $('#txtFiendId');
     openStream(stream => {
                 playVideo(stream,'localStream');
                 const call = peer.call(friendId,stream);
-                console.log(call);
                 call.on('stream',remoteSream => {
                     playVideo(remoteSream,'friendStream');
                 })
     });
 });
-console.log('asdfadsf');
 
 peer.on('call', (call) => {
     openStream(stream => {
