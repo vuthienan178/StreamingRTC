@@ -1,23 +1,10 @@
-const openCamera = require('./openCamera.js');
-const $ = require('jquery');
-//openCamera();
-const Peer = require('simple-peer');
-const p = new Peer({initiator: location.hash === '#1',trickle : false});
-
-p.on('signal', token =>{
-    $('#txtMySignal').val(JSON.stringify(token))
-});
-
-p.on('connect',() =>{
-setInterval(()=> p.send(Math.random()),2000);
-
-});
-
-p.on('data',data => console.log('nhan du lieu:' + data))
-
-$('#btnConnect').click(() => {
-    const friendSignal = JSON.parse($('#txtFriendSignal').val());
-    p.signal(friendSignal);
-});
-
-console.log('xin chao cac ban');
+const Peer = require('peerjs');
+const uid = require('uid');
+const $  = require ('jquery');
+function getPeer(){
+    const id = uid(10);
+    $('#peer-id').append(id);
+    return uid(10);
+}
+const peer = new Peer(getPeer(),{host:'localhost',port: 3000, secure : true,key :'peerjs'});
+console.log(peer);
